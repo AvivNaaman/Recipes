@@ -1,0 +1,164 @@
+﻿@model RecipesMVC.Models.EF_DB.Recipe
+    @{
+        ViewBag.Title = "Edit";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    <!--prevent unloading with unsaved changes-->
+    <!--Credit: https://stackoverflow.com/a/7317311/8319719 -->
+    <script language="javascript" type="text/javascript">
+        /*window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'It looks like you have been editing something. '
+                + 'If you leave before saving, your changes will be lost.';
+
+            (e || window.event).returnValue = confirmationMessage; //Gecko + IE ///I don't care about IE! but still.
+            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+        });
+    </script>
+    <h1>Edit Recipe</h1>
+    <form name="edit-form" id="edit-form">
+        <div class="form-row form-group">
+            <div class="col">
+                <div class="p-0 m-3">
+                    @{
+                        string chkd = "";
+                        if (Model.publicStatus.Value)
+                        {
+                            chkd = "checked";
+                        }
+                    }
+                    <input type="checkbox" id="edit-form-public-chkbox" name="edit-form-public-chkbox" class="form-control-sm m-0 h-auto" @chkd/>
+                    <label class="form-check-label text-md-left" for="edit-form-public-chkbox"> Public</label>
+                </div>
+            </div>
+            <div class="mb-2 mr-2">
+                <label class="form-check-label" for="edit-form-keywords">Keywords: </label>
+                <input type="text" id="edit-form-keywords" name="edit-form-keywords" class="form-control-sm form-control" data-form="edit" data-field="keywords" placeholder="e.g. ''recipe, food..'"  value="@Model.KeyWords" required />
+            </div>
+            <div class="mb-2 mr-2">
+                <label class="form-check-label" for="edit-form-yield">Servings: </label>
+                <input type="text" pattern="\d*" id="edit-form-yield" name="edit-form-yield" class="form-control-sm form-control" data-form="edit" data-field="yield" value="@Model.RecipeYield" required />
+            </div>
+            <!--
+    <div class="mb-2 mr-2 h-auto">
+        <label class="form-check-label" for="edit-form-yield">Image: </label>
+        <input type="file" id="edit-form-img" name="edit-form-img" class="form-control-sm form-control custom-file" data-form="edit" data-field="img" reuired />
+    </div>
+    <div class="col d-block">
+        <button type="button" class="btn btn-danger" >Upload!</button>
+    </div>
+        -->
+        </div>
+        <div style="border: 1px solid black; padding: 10px 5px 10px 5px;" data-saved="false">
+            <div class=" form-row">
+                <div class="form-group input-group-lg col">
+                    <input type="text" class="form-control h2 input inputAutoRecipe" name="edit-form-title" id="edit-form-name" data-form="edit" data-field="title" placeholder="Title/Name" maxlength="35" pattern="[a-zA-Z0-9א-ת._- ]" autofocus required value="@Model.Title" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <textarea class="form-control textarea h5" style="resize: none;" rows="2" name="edit-form-description" id="edit-form-description" data-form="edit" data-field="description" placeholder="Description" maxlength="100">@Model.Description</textarea>
+                </div>
+            </div>
+            <div class="form-row ml-3 mb-4" data-type="form-container">
+                <i class="fa fa-th mr-1 fa-2x"></i>
+                <select name="edit-form-category" id="edit-form-category" class="form-control-sm mr-3 ml-1" data-form="edit" data-field="category" required>
+                    @{
+                        if (!ViewBag.AlreayCategorised)
+                        {
+                            @:<option id="edit-form-category-option-default" disabled selected value>Choose</option>
+                        }
+                    }
+                    @foreach (var category in ViewBag.Categories as RecipesMVC.Models.EF_DB.Category[])
+                    {
+                        string selected = "";
+                        if (ViewBag.CategoryName == category.Name)
+                        { selected = "selected"; }
+                        <option id="edit-form-category-option-@category.ID" value="@category.ID" @selected>@category.Name</option>
+                    }
+                </select>
+                <i class="fa fa-clock-o mr-1 fa-2x"></i>
+                @{
+                    string[] RecipeTotalTime = { "00", "00" };
+                    if (Model.TotalTime.HasValue)
+                    {
+                        if (Model.TotalTime.Value.Hours > 0)
+                        {
+                            RecipeTotalTime[0] = Model.TotalTime.Value.Hours.ToString();
+                        }
+                        if (Model.TotalTime.Value.Minutes > 0)
+                        {
+                            RecipeTotalTime[1] = Model.TotalTime.Value.Minutes.ToString();
+                        }
+                    }
+                }
+                <input type="text" pattern="\d*" class=" ml-1 form-control-sm form-control small-w-input" name="edit-form-time-hr" id="edit-form-time-hr" data-form="edit" data-field="time" data-field-time="hr" max="15" maxlength="2" value="@RecipeTotalTime[0]" required />
+                &nbsp:&nbsp
+                <input type="text" pattern="\d*" class="form-control form-control-sm small-w-input" name="edit-form-time-min" id="edit-form-time-min" data-form="edit" data-field="time" data-field-time="min" max="60" maxlength="2" value="@RecipeTotalTime[1]" required />
+            </div>
+            <hr />
+            <h3>Ingredients:</h3>
+            <div class="form-row">
+                <div class="form-group col">
+                    <div id="edit-form-ingredients">
+                        @{
+                            int cntr = 0;
+                            if (Model.Ingredients != null)
+                            {
+                                foreach (string ingredient in Model.Ingredients.Split(';'))
+                                {
+                                    <input type="text" class="form-control" name="edit-form-ingredient-@cntr" id="edit-form-ingredient-@cntr" data-form="edit" data-field="ingredient" data-field-ingredient="@cntr" value="@ingredient" required pattern="[a-zA-Z0-9א-ת._- ]"/>
+                                    cntr++;
+                                }
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" name="edit-form-ingredient-0" id="edit-form-ingredient-0" data-form="edit" data-field="ingredient" data-field-ingredient="0" required pattern="[a-zA-Z0-9א-ת._- ]"/>
+                                <input type="text" class="form-control" name="edit-form-ingredient-1" id="edit-form-ingredient-1" data-form="edit" data-field="ingredient" data-field-ingredient="1" required pattern="[a-zA-Z0-9א-ת._- ]"/>
+                            }
+                            string disabledString = "disabled";
+                            if (cntr > 2)
+                            {
+                                disabledString = "";
+                            }
+                        }
+                    </div>
+                    <button type="button" class="btn btn-success" id="edit-form-add-ingredient" name="edit-form-add-ingredient">+</button>
+                    <button type="button" class="btn btn-danger" id="edit-form-rm-ingredient" name="edit-form-rm-ingredient" @disabledString style="padding: 6px 13px 6px 13px">-</button>
+                </div>
+            </div>
+            <hr />
+            <h3>Instructions:</h3>
+            <div class="form-row">
+                <div class="form-group col">
+                    <div id="edit-form-instructions">
+                        @{
+                            if (Model.Instructions != null)
+                            {
+                                cntr = 0;
+                                foreach (string instruction in Model.Instructions.Split(';'))
+                                {
+                                    @:<textarea class="form-control textarea" name="edit-form-instruction-@cntr" id="edit-form-instruction-@cntr" data-form="edit" data-field="instruction" data-field-instruction="@cntr" required>@Html.Raw(instruction)</textarea>
+                                    cntr++;
+                                }
+                            }
+                            else
+                            {
+                                <textarea class="form-control textarea" name="edit-form-instruction-0" id="edit-form-instruction-0" data-form="edit" data-field="instruction" data-field-instruction="0"></textarea>
+                                <textarea class="form-control textarea" name="edit-form-instruction-1" id="edit-form-instruction-1" data-form="edit" data-field="instruction" data-field-instruction="1"></textarea>
+                            }
+                            disabledString = "disabled";
+                            if (cntr > 2)
+                            {
+                                disabledString = "";
+                            }
+                        }
+                    </div>
+                    <button type="button" class="btn btn-success" id="edit-form-add-instruction" name="edit-form-add-instruction">+</button>
+                    <button type="button" class="btn btn-danger" id="edit-form-rm-instruction" name="edit-form-rm-instruction" @disabledString style="padding: 6px 13px 6px 13px">-</button>
+                </div>
+            </div>
+        </div>
+        <div class="d-inline-block col-md-9 mr-0" id="submitEdit">
+            <button class="btn btn-primary float-right mt-2" type="submit" id="edit-form-submit">Save Changes!</button><!--Add jquery PreventDefault() on submition!-->
+        </div>
+    </form>

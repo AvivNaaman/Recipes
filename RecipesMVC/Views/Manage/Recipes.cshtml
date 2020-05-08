@@ -1,0 +1,58 @@
+﻿@model List<RecipesMVC.Controllers.RecipeForManage>
+@{
+    ViewBag.Title = "Recipes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("ManageNav")
+<h2>Recipes</h2>
+<h6><a href="~/Recipes/New" style="color:white!important;" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;<u>Create New Recipe!</u></a></h6>
+<span style="color: red;"><small><i>Edits are autosaved.</i></small></span>
+<div class="table-responsive-md">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    #
+                </th>
+                <th scope="col">
+                    Title
+                </th>
+                <th scope="col">
+                    Uploaded By
+                </th>
+                <th scope="col">
+                    UploadedAt
+                </th>
+                <th scope="col">
+                    Category
+                </th>
+                <th scope="col">
+                    Public Status
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count > 0)
+            {
+                foreach (var recipe in Model)
+                {
+            <tr data-recipe-id="@recipe.ID" class="saved-item">
+                <td scope="row">@recipe.ID</td>
+                <td scope="col"><a href="@recipe.RouteURL" style="color: black;"><u>@recipe.Title</u></a></td>
+                <td scope="col">@recipe.UploadedBy</td>
+                <td scope="col">@recipe.UploadedAt</td>
+                <td scope="col">@recipe.Category</td>
+                <td scope="col" class=""><input type="checkbox" class="ml-5" data-field="change-public-status-manage" @(recipe.PublicStatus?"checked":"")/><div data-append-here="true"></div></td>
+                <td>
+                    <a href="/Recipes/Edit/@recipe.ID" style="color: black;"><i class="fa fa-edit"></i></a>
+                    <i class="fa fa-remove" data-field="remove-recipe-manage"></i>
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+

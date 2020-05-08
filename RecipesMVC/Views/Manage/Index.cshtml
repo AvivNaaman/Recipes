@@ -1,0 +1,47 @@
+﻿@model  RecipesMVC.Models.ConfigurationModel
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+        @Html.Partial("ManageNav")
+    <h2>General</h2>
+    <form id="manage-config-form">
+        <h4><abbr class="initialism" title="Simple Mail Transfer Protocol - Setup mail services">Smtp</abbr></h4>
+        <hr />
+        <div class="form-group">
+            <input type="checkbox" id="manage-config-smtp-enabled" onclick="CheckboxesToggle();" data-form="manage-config" data-field="smtp-enabled" data-chkbox-disable="true" data-chkbox-disable-type="smtp"  @(Model.SmtpEnabled?"checked":"") />
+            <label for="manage-config-smtp-enabled">Enabled</label>
+        </div>
+        <div class="form-group">
+            <label for="manage-config-smtp-server">Server Name:</label>
+            <input type="text" id="manage-config-smtp-server" class="form-control custom-control-inline inputAutoRecipe mb-2" data-form="manage-config" data-field="smtp-server" data-chkbox-disable-type="smtp" placeholder="e.g. smtp.gmail.com" value="@(Model.Smtp.Server)" />
+        </div>
+        <div class="form-group">
+            <label for="manage-config-smtp-user">User Name (Mail Address):</label>
+            <input type="email" id="manage-config-smtp-user" class="form-control custom-control-inline inputAutoContact mb-2" data-form="manage-config" data-field="smtp-user" data-chkbox-disable-type="smtp"  value="@(Model.Smtp.User)"/>
+        </div>
+        <div class="form-group">
+            <label for="manage-config-smtp-password">Password:</label>
+            <input type="text" id="manage-config-smtp-password" class="form-control custom-control-inline inputAutoRecipe mb-2" data-form="manage-config" data-field="smtp-password" data-chkbox-disable-type="smtp"  value="@(Model.Smtp.Password)"/>
+        </div>
+        <h4><abbr class="initialism" title="User Interface">UI</abbr></h4>
+        <hr />
+        <div class="form-group">
+
+        </div>
+        <div class="form-group">
+            <label for="manage-config-font-family">Font Family:</label>
+            <input type="text" id="manage-config-font-family" class="form-control custom-control-inline inputAutoRecipe mb-2" data-form="manage-config" data-field="font-family" placeholder="for default: leave null."  value="@(Model.FontFamily)"/>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" id="manage-config-dark" data-form="manage-config" data-field="dark"  @(Model.DarkMode?"checked":"")/>
+            <label for="manage-config-dark">Dark Mode</label>
+        </div>
+        <div class="form-group">
+            <label for="manage-config-website-name">WebSite Name:</label>
+            <input type="text" id="manage-config-website-name" class="form-control custom-control-inline inputAutoRecipe mb-2" data-form="manage-config" data-field="website-name" placeholder="default: &quot;Recipe&quot" value="@(Model.SiteName)" required/>
+        </div>
+        <button type="submit" class="btn btn-primary" id="manage-config-submit">Save Changes</button>
+    </form>
+
+

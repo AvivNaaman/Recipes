@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "ResetV";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ResetV</h2>
+
+<div class="d-flex justify-content-center">
+    <form id="reset-pwd-form-v" class="pt-5 mt-2 ml-1 form-group" style=" background-color: white;">
+        <input type="password" class="form-control" id="reset-pwd-pwd" data-form="reset-pwd" style="width: 15rem" data-field="pwd" placeholder="New Password" required />
+        <br />
+        <input type="password" class="form-control" id="reset-pwd-pwd0" data-form="reset-pwd" style="width: 15rem" data-field="pwd0" placeholder="And Again.." required />
+        <small class="text-danger"><i id="reset-pwd-error">&nbsp;</i></small>
+        <div class="offset-4 mt-3">
+            <button type="submit" class="btn btn-outline-info" id="reset-pwd-submit"> Go! </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,151 @@
+﻿@model RecipesMVC.Models.EF_DB.Recipe
+
+@{
+    ViewBag.Title = "Recipe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@Model.Title</h2>
+@{ 
+    string[] savedTitleAddition = new string[4];
+    //[0] for title=""
+    //[1] for style (clickable)
+    savedTitleAddition[0] = "Login to";
+    savedTitleAddition[1] = "mouse: cursor;";
+    if (User.Identity.IsAuthenticated)
+    {
+        savedTitleAddition[0] = "Click";
+        savedTitleAddition[1] = "mouse: pointer;";
+        savedTitleAddition[2] = "recipe-saved-icon";
+    }
+    savedTitleAddition[3] = "unchecked";
+    if (ViewBag.SavedAlreay)
+    {
+        savedTitleAddition[3] = "checked";
+    }
+}
+<div><span class="fa fa-th mr-1 " style="vertical-align: middle"></span><a href="~/Recipes?c=@ViewBag.Category.Name" class="btn btn-outline-secondary text-dark" style="border: none; padding: 2px 5px 2px 5px;">@ViewBag.Category.Name</a><span class="fa fa-clock-o mr-1 ml-1" style="vertical-align: middle"></span><span style="vertical-align: middle">@Model.TotalTime.Value.ToString("hh\\:mm")</span><span class="fa fa-star mr-1 ml-1" style="vertical-align: middle"></span><span style="vertical-align: middle">@Html.Raw(ViewBag.AvgRating)</span><img src="~/Content/Images/saved.@(savedTitleAddition[3]).png" width="25" id="@savedTitleAddition[2]" title="@savedTitleAddition[0] Save Me!" style="@savedTitleAddition[1]"/></div>
+<h5>@Model.Description</h5>
+<div>By: @Model.User.UserName, @(Model.UploadedAt.GetValueOrDefault().ToString("dd-MM-yyyy HH:mm"))</div>
+@if (Model.MainImage.HasValue)
+{
+<img src="/static/images/@Model.MainImage" class="float-right  RecipeImage overflow-hidden ml-2" />
+}
+<h3>Ingredients:</h3>
+<ol start="1">
+    @foreach (string ingerdient in Model.Ingredients.Split(';'))
+    {
+        <li class="list-group-item-light mb-2" style="list-style-position:outside;"> @ingerdient </li>
+    }
+</ol>
+<h3>Instructions:</h3>
+<ol start="1">
+    @foreach (string Instruction in Model.Instructions.Split(';'))
+    {
+        <li class="list-group-item-light mr-5" style="list-style-position:outside; font-size: 1.2rem;"><div class="d-inline">@Instruction</div></li>
+    }
+</ol>
+<h3>Ratings and Responses:</h3>
+@{ if (ViewBag.ratings.Count > 0)
+    {@:<ul class="list-group list-group-flush">
+        } }
+
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        if (!ViewBag.IsCurrentWriter)
+        {
+            @:<li class="list-group-item" data-form="addComment">
+                if (ViewBag.UserRate != null)
+                {
+                    @:<div>
+                        var rate = ViewBag.UserRate as RecipesMVC.Models.EF_DB.Rating;
+                        int stars = rate.Starts;
+                        string ischecked = "";
+                        string toret = "";
+                        for (int i = 1; i <= 5; i++)
+                        {
+                            ischecked = "";
+                            if (i <= stars)
+                            {
+                                ischecked = "checked";
+                            }
+                            toret += "<i class=\"fa fa-star " + ischecked + "\" data-form=\"addComment\" data-star=\"" + i + "\" data-submitted='true'></i>";
+                        }
+                        @:@(new HtmlString(toret))
+                    @:</div>
+                    <small><i><span style="color:red;">star rate is auto-saved</span></i></small>
+                    <br />
+                    <input type="text" name="addComment-title" data-form="addComment" placeholder="Title" maxlength="20" class="form-control" id="addComment-title" value="@rate.Title">
+                    <textarea name="addComment-body" id="addComment-body" class="form-control textarea p-2" maxlength="150" placeholder="A little bit more..">@rate.Comment</textarea>
+                    <button type="button" onclick="SaveFullComment()" class="btn btn-outline-success mt-2 ml-5">Save comment</button>
+                }
+                else
+                {
+                    <i class="fa fa-star" data-form="addComment" data-star="1"></i><i class="fa fa-star" data-form="addComment" data-star="2"></i><i class="fa fa-star" data-form="addComment" data-star="3"></i><i class="fa fa-star" data-form="addComment" data-star="4"></i><i class="fa fa-star" data-form="addComment" data-star="5"></i>
+                    <br />
+                    <small><i><span style="color:red;">star rate is auto-saved</span></i></small>
+                    <br />
+                    <input type="text" name="addComment-title" data-form="addComment" placeholder="Title" maxlength="20" class="form-control" id="addComment-title">
+                    <textarea name="addComment-body" class="form-control textarea" maxlength="150" placeholder="A little bit more.." id="addComment-body"></textarea>
+                    <button type="button" onclick="SaveFullComment()" class="btn btn-outline-success mt-2 ml-5">Save comment</button>
+                }
+            @:</li>
+        }
+        else
+        {
+            //add something?
+        }
+    }
+    else
+    {
+        @:<h4>Log in to add rating!</h4>
+    }
+}
+
+@{
+    if (ViewBag.ratings.Count > 0)
+    {
+        foreach (RecipesMVC.Models.EF_DB.Rating rating in ViewBag.ratings)
+        {
+            if (rating.UserID != ViewBag.currUserID)
+            {
+                @:<li class="list-group-item">
+                    if (rating.Starts > 0)
+                {
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        string color = "checked";
+                        if (i > rating.Starts)
+                        {
+                            color = "";
+                        }
+                            @:<span class="@color fa fa-star"></span>
+                        }
+                }
+                    @Html.Raw('@')@:@rating.UserName
+                    if (rating.Title != null || rating.Comment != null)
+                {
+                        @:<h6 class="font-weight-bold">@rating.Title</h6>
+                        @:<p>@rating.Comment</p>
+                    }
+                @:</li>
+            }
+        }
+    @:</ul>
+
+    }
+    else
+    {
+        string additionTemp = "";
+        if (!ViewBag.IsCurrentWriter)
+        {
+            additionTemp = " Be the first to respond!";
+        }
+    @: <hr /><h5 class="m-3">No one Responded yet.</h5>
+}
+}
+<script language="javascript" style="color: #ffd800">
+    $(document).ready(function () {
+        $(".checked.fa.fa-star").css("color", "#ffd800");
+    });
+</script>

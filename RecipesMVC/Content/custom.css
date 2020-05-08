@@ -1,0 +1,126 @@
+﻿body {
+}
+.RecipeImage {
+    width: 45%;
+    height: auto;
+}
+@media only screen and (max-width:990px) {
+    .RecipeImage {
+        width: 100%;
+        margin: 5px 3px 5px 3px;
+    }
+
+    .textarea {
+        width: 95% !important;
+    }
+
+    #addComment-title {
+        width: 50% !important;
+    }
+
+    .inputAutoRecipe {
+        width: 70% !important;
+    }
+
+    .small-w-input {
+        width: 12% !important;
+    }
+
+    div.ml-3[data-type="form-container"] {
+        margin-left: 2px !important;
+    }
+
+    input[data-field="ingredient"][data-form="edit"], textarea[data-field="instruction"][data-form="edit"] {
+        width: 90% !important;
+    }
+    .inputAutoContact {
+        width: 80% !important;
+    }
+}
+@media only screen and (max-width:768px) {
+
+    .btn-search {
+        margin-top: 0px !important;
+    }
+}
+.form-group {
+    margin-bottom: 0.5rem !important;
+}
+
+#page-content {
+    flex: 1 0 auto;
+}
+
+#sticky-footer {
+    flex-shrink: none;
+}
+
+.textarea {
+    min-height: 20px;
+    width: 50%;
+    /*display: inline-block;*/
+    margin-top: 10px;
+    padding: 4px 4px 2px 4px;
+    word-wrap: break-word;
+    resize: none;
+}
+
+#addComment-title {
+    width: 25%;
+}
+
+.inputAutoRecipe {
+    width: 30%;
+}
+
+.small-w-input {
+    width: 7%;
+}
+
+input[data-field="ingredient"][data-form="edit"], textarea[data-field="instruction"][data-form="edit"] {
+    margin-bottom: 0.4rem;
+    width: 25%;
+}
+
+#submitEdit {
+    margin: 0px 0px 0px 0px !important;
+}
+
+.card {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+
+    .card:hover {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+        cursor: pointer !important;
+    }
+
+.saved-item {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+    .saved-item:hover {
+        box-shadow: 0 0.7rem 1.5rem rgba(0, 0, 0, 0.175) !important;
+        cursor: pointer !important;
+    }
+
+.inputAutoContact {
+    width: 30%
+}
+
+.btn-search {
+    margin-top: 2rem;
+}
+input.hide-disable {
+    background-color: white !important;
+}
+/*Somee.com WebHost Advertisment override*/
+div[onmouseover="S_ssac();"],
+div[style="opacity: 0.9; z-index: 2147483647; position: fixed; left: 0px; bottom: 0px; height: 65px; right: 0px; display: block; width: 100%; background-color: #202020; margin: 0px; padding: 0px;"],
+a[data-href="somee.com"],
+a[href="http://somee.com"] {
+    visibility: hidden !important;
+    max-height: 0px !important;
+}
+

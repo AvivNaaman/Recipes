@@ -1,0 +1,67 @@
+﻿@model RecipesMVC.Models.EF_DB.User
+@{
+    ViewBag.Title = "Index";
+    ViewBag.RenderDateTime = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Account</h2>
+<div>
+    <form id="account-form">
+        <div class="row">
+            <h5 class="mr-2 mt-1 ml-3">Mail Address:</h5>
+            <div class="col-lg-4 col-md-6 col-sm-7 col-12">
+                <input type="email" class="form-control" id="account-email" value="@(Model.Email)" data-form="account" required />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <h5 class="mr-2 mt-1 ml-3">User Name:</h5>
+            <div class="col-lg-4 col-md-6 col-sm-7 col-12">
+                <input type="text" class="form-control" id="account-user" value="@(Model.UserName)" data-form="account" required />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <h5 class="mr-2 mt-1 ml-3">First Name:</h5>
+            <div class="col-lg-4 col-md-6 col-sm-7 col-12">
+                <input type="text" class="form-control" id="account-name" value="@(Model.FirstName)" data-form="account" required />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <h5 class="mr-2 mt-1 ml-3">Birth Day:</h5>
+            <div class="col-lg-4 col-md-6 col-sm-7 col-12">
+                <div class="input-group date form_date w-50" id="account-birth-day" data-date="@(Model.BirthDay.HasValue?Model.BirthDay.Value.ToString("h'h-'m'm-'s's'"):"")" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control active disabled" size="16" type="text" value="23 April 2004" required data-form="account">
+                    <span class="input-group-addon"><span class="glyphico glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphico glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-5 mt-2 mt-lg-0 mt-md-0 mt-sm-0">
+                <button class="btn btn-success" type="submit" disabled data-form="account" id="account-submit">Save</button>
+            </div>
+        </div>
+        <div class="row mt-4 ml-2">
+            <div class="">
+                <button class="btn btn-danger" type="button" id="account-button-clear-data" title="Delets All your account stored data, but not your profile info.">Remove Data</button>
+                <button class="btn btn-danger" type="button" id="account-button-delete-account"title="Delets Your Account: Data, Profile, Info, And Login.">Delete Account</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script language="javascript">
+    $(document).ready(function () {
+        $('.form_date').datetimepicker({
+            language:  '@(System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName)',
+            weekStart: 1,
+            todayBtn:  1,
+		    autoclose: 1,
+		    todayHighlight: 1,
+		    startView: 2,
+		    minView: 2,
+            forceParse: 0,
+            fontAwesome: true
+        });
+    });
+</script>
+

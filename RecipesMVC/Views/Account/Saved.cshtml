@@ -1,0 +1,40 @@
+﻿@model List<RecipesMVC.Controllers.sRecipeFavorites>
+@{
+    ViewBag.Title = "Saved";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Saved</h2>
+@if (Model.Count > 0)
+{
+    foreach (var recipe in Model)
+    {
+<div class="row mb-2 col shadow-sm p-2 saved-item">
+    <a href="~/Recipes/Recipe/@recipe.RouteURL" class="" style="color: black;">
+        <u>
+            <b>
+                <div class="col">
+                    @recipe.Title
+                </div>
+            </b>
+        </u>
+    </a>
+
+    <div class="col">
+        By @Html.Raw("@")@recipe.UploadedBy
+    </div>
+
+    <div class="col">
+        <span class="fa fa-th mr-1 " style="vertical-align: middle"></span><a href="~/Recipes?c=@recipe.CategoryName" class="btn btn-outline-secondary text-dark" style="border: none; padding: 2px 5px 2px 5px;">@recipe.CategoryName</a>
+    </div>
+    <div class="">
+        <span class="fa fa-clock-o mr-1 ml-1" style="vertical-align: middle"></span><span style="vertical-align: middle">@recipe.Time</span>
+    </div>
+</div>
+    }
+}
+else
+{
+    <h4>No Saved yet. press the nice <img src="~/Content/Images/saved.unchecked.png" height="30" width="30" /> icon to save recipe, when you see a nice one.</h4>
+}
+

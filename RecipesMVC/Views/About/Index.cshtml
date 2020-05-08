@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>A little About US:</h2>
+<h5>Recipes WebSite was build initially as lorem ipsum site.
+    orem ipsum dolor sit amet, consectetur adipiscing elit.
+    Duis eget ligula sit amet mi pretium sagittis.
+    Pellentesque ac condimentum risus, vel pretium magna.
+    Curabitur quis purus justo. Morbi consectetur nisl sit amet dolor molestie pharetra.
+    Etiam fringilla lorem nec elit laoreet, sed facilisis nisi sollicitudin. Aliquam eu faucibus tellus.
+    Quisque arcu augue, congue vitae orci et, dignissim dictum erat.
+    Fusce sed mauris at ligula eleifend facilisis vitae convallis nibh.</h5>
+<br />
+<form id="contact-form">
+    <h3>Contact Us:</h3>
+    <div class="form-group">
+        <input type="email" id="contact-form-title" class="form-control inputAutoContact" name="contact-form-title" data-form-name="contact" placeholder="Your E-Mail Address" data-form="contact" data-field="title" required /><br />
+    </div>
+    <div class="form-group">
+        <input type="text" id="contact-form-title" class="form-control inputAutoContact" name="contact-form-title" data-form-name="contact" placeholder="The title" data-form="contact" data-field="title" required /><br />
+    </div>
+    <div class="form-group">
+        <textarea id="contact-form-body" class="form-control textarea" name="contact-form-body" data-form="contact" data-field="body" placeholder="Your Message" required></textarea>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Send it!</button>
+</form>
+

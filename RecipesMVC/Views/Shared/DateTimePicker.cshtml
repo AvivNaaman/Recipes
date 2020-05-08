@@ -1,0 +1,13 @@
+﻿<script language="javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.css" />
+@using System.Threading;
+@{ 
+    switch (Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower())
+    {
+        case "he":
+            @:<script language="javascript" src="~/Scripts/bootstrap-datetimepicker.locales/bootstrap-datetimepicker.he.js"></script>
+            break;
+        default:
+            break;
+    }
+}

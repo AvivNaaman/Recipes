@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 id="page-body-title"></h1>
+<div class="row">
+    <div class="col-md-4 col-sm-6 col-12 mb-3">
+        <label for="search-page-string">Search Text:</label>
+        <input type="text" id="search-page-string" class="form-control" data-form="search-page" data-field="string" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-6 mb-3">
+        <label for="search-page-cat">Category:</label>
+        <select id="search-page-cat" class="custom-select" data-form="search-page" data-field="cat">
+            <option value selected></option>
+            @foreach (string category in ViewBag.Categories as List<string>)
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2 col-sm-3 col-6 mb-3">
+        <label for="search-page-sort">Sort By:</label>
+        <select id="search-page-sort" class="custom-select" data-form="search-page" data-field="sort">
+            <option value selected></option>
+            <option value="r">Ratings</option>
+            <option value="d">Newest</option>
+            <option value="t">Work Time</option>
+        </select>
+    </div>
+    <div class="col-md-2 col-sm-3 col-6 mb-3">
+        <button class="btn btn-primary btn-search" id="search-page-submit">Search!</button>
+    </div>
+</div>
+
+<div id="search-results">
+    <div class="row">
+        <img src="~/Content/Animations/loading-ms-spinner.svg" height="100" style="margin: auto !important;" class="d-block" />
+    </div>
+</div>
+<!--
+        <div class="col-md-3 mb-3">
+            <div class="card offset-1">
+                <img class="card-img-top" src="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">%%title%%</h5>
+                    <p class="card-text">%%description%%</p>
+                    <div class="align-middle">
+                        <span class="fa fa-clock-o mr-1 ml-1" style="vertical-align: middle"></span><small style="vertical-align: middle">%%time%%</small>
+                        <span class="fa fa-th mr-1 ml-1" style="vertical-align: middle"></span><small><a href="~/Recipes?c=%%cat%%" class="btn btn-outline-secondary text-dark btn-sm" style="border: none; padding: 2px 5px 2px 5px;">%%cat%%</a></small>
+                    </div>
+                </div>
+            </div>
+        </div></div>
+                -->

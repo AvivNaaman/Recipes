@@ -1,0 +1,55 @@
+﻿@model List<RecipesMVC.Models.EF_DB.User>
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Globalization
+@Html.Partial("ManageNav")
+<h2>Users</h2>
+<span style="color: red;"><small><i>Edits are autosaved.</i></small></span>
+<div class="table-responsive-md">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    #
+                </th>
+                <th scope="col">
+                    First Name
+                </th>
+                <th scope="col">
+                    User Name
+                </th>
+                <th scope="col">
+                    Email
+                </th>
+                <th scope="col">
+                    Joined On
+                </th>
+                <th scope="col">
+                    Role
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+            <tr data-user-id="@user.ID" class="saved-item">
+                <th scope="row">@user.ID</th>
+                <td scope="col">@user.FirstName</td>
+                <td scope="col">@user.UserName</td>
+                <td scope="col">@user.Email</td>
+                <td scope="col">@user.JoinedOn.Value.ToString("d", DateTimeFormatInfo.InvariantInfo)</td>
+                <td scope="col"@{if (!user.Role.Contains("Admin")) { @:contenteditable="true" data-field='manage-users-role' data-user-id="@user.ID"
+                    } }>@user.Role</td>
+                <td>  @{if (!user.Role.Contains("Admin")) {@:<i class="fa fa-remove p-1" data-field='manage-users-rm' data-user-id="@user.ID" style="cursor: pointer;"></i>
+   } } </td>
+ 
+
+              </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
